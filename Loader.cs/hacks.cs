@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Threading;
 using Aquiris.Ballistic.Game.Character.PlayerBehaviour;
 using System;
@@ -53,7 +53,7 @@ namespace Loader.cs
 
             //rate of fire mode
 
-            localPlayer.currentWeapon.shootController.shootData.fireRate = 1.0f; // / Options.RateOfFire;
+            localPlayer.currentWeapon.shootController.shootData.fireRate = 1.0f / Options.RateOfFire;
 
             //instant bolt action
 
@@ -61,7 +61,7 @@ namespace Loader.cs
 
             //full auto weapons
 
-            //localPlayer.currentWeapon.aimController.shootController.shootData.shootMode = ShootMode.SEMI_AUTOMATIC;
+            localPlayer.currentWeapon.aimController.shootController.shootData.shootMode = ShootMode.AUTOMATIC;
 
 
             if (Input.GetKeyUp(KeyCode.Delete))
