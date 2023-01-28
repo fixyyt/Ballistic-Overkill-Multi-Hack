@@ -1,0 +1,364 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Thrift</name>
+    </assembly>
+    <members>
+        <member name="M:Thrift.Collections.TCollections.Equals(System.Collections.IEnumerable,System.Collections.IEnumerable)">
+            <summary>
+                This will return true if the two collections are value-wise the same.
+                If the collection contains a collection, the collections will be compared using this method.
+            </summary>
+        </member>
+        <member name="M:Thrift.Collections.TCollections.GetHashCode(System.Collections.IEnumerable)">
+            <summary>
+                This returns a hashcode based on the value of the enumerable.
+            </summary>
+        </member>
+        <member name="F:Thrift.Protocol.TCompactProtocol._lastField">
+            <summary>
+                Used to keep track of the last field for the current and previous structs, so we can do the delta stuff.
+            </summary>
+        </member>
+        <member name="F:Thrift.Protocol.TCompactProtocol._booleanField">
+            <summary>
+                If we encounter a boolean field begin, save the TField here so it can have the value incorporated.
+            </summary>
+        </member>
+        <member name="F:Thrift.Protocol.TCompactProtocol._boolValue">
+            <summary>
+                If we Read a field header, and it's a boolean field, save the boolean value here so that ReadBool can use it.
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TCompactProtocol.WriteStructBeginAsync(Thrift.Protocol.Entities.TStruct,System.Threading.CancellationToken)">
+            <summary>
+                Write a struct begin. This doesn't actually put anything on the wire. We
+                use it as an opportunity to put special placeholder markers on the field
+                stack so we can get the field id deltas correct.
+            </summary>
+        </member>
+        <member name="T:Thrift.Protocol.TCompactProtocol.Types">
+            <summary>
+                All of the on-wire exType codes.
+            </summary>
+        </member>
+        <member name="T:Thrift.Protocol.TJsonProtocol">
+            <summary>
+                JSON protocol implementation for thrift.
+                This is a full-featured protocol supporting Write and Read.
+                Please see the C++ class header for a detailed description of the
+                protocol's wire format.
+                Adapted from the Java version.
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.#ctor(Thrift.Transport.TTransport)">
+            <summary>
+                TJsonProtocol Constructor
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.PushContext(Thrift.Protocol.TJsonProtocol.JSONBaseContext)">
+            <summary>
+                Push a new JSON context onto the stack.
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.PopContext">
+            <summary>
+                Pop the last JSON context off the stack
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.ResetContext">
+            <summary>
+               Resets the context stack to pristine state. Allows for reusal of the protocol
+               even in cases where the protocol instance was in an undefined state due to
+               dangling/stale/obsolete contexts
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.ReadJsonSyntaxCharAsync(System.Byte[],System.Threading.CancellationToken)">
+            <summary>
+                Read a byte that must match b[0]; otherwise an exception is thrown.
+                Marked protected to avoid synthetic accessor in JSONListContext.Read
+                and JSONPairContext.Read
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.WriteJsonStringAsync(System.Byte[],System.Threading.CancellationToken)">
+            <summary>
+                Write the bytes in array buf as a JSON characters, escaping as needed
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.WriteJsonIntegerAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+                Write out number as a JSON value. If the context dictates so, it will be
+                wrapped in quotes to output as a JSON string.
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.WriteJsonDoubleAsync(System.Double,System.Threading.CancellationToken)">
+            <summary>
+                Write out a double as a JSON value. If it is NaN or infinity or if the
+                context dictates escaping, Write out as JSON string.
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.WriteJsonBase64Async(System.Byte[],System.Threading.CancellationToken)">
+            <summary>
+                Write out contents of byte array b as a JSON string with base-64 encoded
+                data
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.ReadJsonStringAsync(System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+                Read in a JSON string, unescaping as appropriate.. Skip Reading from the
+                context if skipContext is true.
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.ReadJsonNumericCharsAsync(System.Threading.CancellationToken)">
+            <summary>
+                Read in a sequence of characters that are all valid in JSON numbers. Does
+                not do a complete regex check to validate that this is actually a number.
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.ReadJsonIntegerAsync(System.Threading.CancellationToken)">
+            <summary>
+                Read in a JSON number. If the context dictates, Read in enclosing quotes.
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.ReadJsonDoubleAsync(System.Threading.CancellationToken)">
+            <summary>
+                Read in a JSON double value. Throw if the value is not wrapped in quotes
+                when expected or if wrapped in quotes when not expected.
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.ReadJsonBase64Async(System.Threading.CancellationToken)">
+            <summary>
+                Read in a JSON string containing base-64 encoded data and decode it.
+            </summary>
+        </member>
+        <member name="T:Thrift.Protocol.TJsonProtocol.Factory">
+            <summary>
+                Factory for JSON protocol objects
+            </summary>
+        </member>
+        <member name="T:Thrift.Protocol.TJsonProtocol.JSONBaseContext">
+            <summary>
+                Base class for tracking JSON contexts that may require
+                inserting/Reading additional JSON syntax characters
+                This base context does nothing.
+            </summary>
+        </member>
+        <member name="T:Thrift.Protocol.TJsonProtocol.JSONListContext">
+            <summary>
+                Context for JSON lists. Will insert/Read commas before each item except
+                for the first one
+            </summary>
+        </member>
+        <member name="T:Thrift.Protocol.TJsonProtocol.JSONPairContext">
+            <summary>
+                Context for JSON records. Will insert/Read colons before the value portion
+                of each record pair, and commas before each key except the first. In
+                addition, will indicate that numbers in the key position need to be
+                escaped in quotes (since JSON keys must be strings).
+            </summary>
+        </member>
+        <member name="T:Thrift.Protocol.TJsonProtocol.LookaheadReader">
+            <summary>
+                Holds up to one byte from the transport
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.LookaheadReader.ReadAsync(System.Threading.CancellationToken)">
+            <summary>
+                Return and consume the next byte to be Read, either taking it from the
+                data buffer if present or getting it from the transport otherwise.
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.TJsonProtocol.LookaheadReader.PeekAsync(System.Threading.CancellationToken)">
+            <summary>
+                Return the next byte to be Read without consuming, filling the data
+                buffer if it has not been filled alReady.
+            </summary>
+        </member>
+        <member name="T:Thrift.Protocol.TMultiplexedProtocol">
+             TMultiplexedProtocol is a protocol-independent concrete decorator that allows a Thrift
+             client to communicate with a multiplexing Thrift server, by prepending the service name
+             to the function name during function calls.
+            
+             NOTE: THIS IS NOT TO BE USED BY SERVERS.
+             On the server, use TMultiplexedProcessor to handle requests from a multiplexing client.
+            
+             This example uses a single socket transport to invoke two services:
+            
+                 TSocketTransport transport = new TSocketTransport("localhost", 9090);
+                 transport.open();
+            
+                 TBinaryProtocol protocol = new TBinaryProtocol(transport);
+            
+                 TMultiplexedProtocol mp = new TMultiplexedProtocol(protocol, "Calculator");
+                 Calculator.Client service = new Calculator.Client(mp);
+            
+                 TMultiplexedProtocol mp2 = new TMultiplexedProtocol(protocol, "WeatherReport");
+                 WeatherReport.Client service2 = new WeatherReport.Client(mp2);
+            
+                 System.out.println(service.add(2,2));
+                 System.out.println(service2.getTemperature());
+            
+        </member>
+        <member name="F:Thrift.Protocol.TMultiplexedProtocol.Separator">
+            Used to delimit the service name from the function name 
+        </member>
+        <member name="M:Thrift.Protocol.TMultiplexedProtocol.#ctor(Thrift.Protocol.TProtocol,System.String)">
+             Wrap the specified protocol, allowing it to be used to communicate with a
+             multiplexing server.  The <code>serviceName</code> is required as it is
+             prepended to the message header so that the multiplexing server can broker
+             the function call to the proper service.
+            
+             Args:
+              protocol        Your communication protocol of choice, e.g. TBinaryProtocol
+              serviceName     The service name of the service communicating via this protocol.
+        </member>
+        <member name="T:Thrift.Protocol.TProtocolDecorator">
+            <summary>
+                TProtocolDecorator forwards all requests to an enclosed TProtocol instance,
+                providing a way to author concise concrete decorator subclasses.While it has
+                no abstract methods, it is marked abstract as a reminder that by itself,
+                it does not modify the behaviour of the enclosed TProtocol.
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.Utilities.TJSONProtocolHelper.IsJsonNumeric(System.Byte)">
+            <summary>
+                Return true if the given byte could be a valid part of a JSON number.
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.Utilities.TJSONProtocolHelper.ToHexVal(System.Byte)">
+            <summary>
+                Convert a byte containing a hex char ('0'-'9' or 'a'-'f') into its
+                corresponding hex value
+            </summary>
+        </member>
+        <member name="M:Thrift.Protocol.Utilities.TJSONProtocolHelper.ToHexChar(System.Byte)">
+            <summary>
+                Convert a byte containing a hex value to its corresponding hex character
+            </summary>
+        </member>
+        <member name="T:Thrift.Server.TServerEventHandler">
+            <summary>
+            Interface implemented by server users to handle events from the server
+            </summary>
+            <remarks>Replaced by ITServerEventHandler</remarks>
+        </member>
+        <member name="T:Thrift.Server.ITServerEventHandler">
+            <summary>
+            Interface implemented by server users to handle events from the server
+            </summary>
+        </member>
+        <member name="M:Thrift.Server.ITServerEventHandler.PreServeAsync(System.Threading.CancellationToken)">
+            <summary>
+                Called before the server begins */
+            </summary>
+        </member>
+        <member name="M:Thrift.Server.ITServerEventHandler.CreateContextAsync(Thrift.Protocol.TProtocol,Thrift.Protocol.TProtocol,System.Threading.CancellationToken)">
+            <summary>
+                Called when a new client has connected and is about to being processing */
+            </summary>
+        </member>
+        <member name="M:Thrift.Server.ITServerEventHandler.DeleteContextAsync(System.Object,Thrift.Protocol.TProtocol,Thrift.Protocol.TProtocol,System.Threading.CancellationToken)">
+            <summary>
+                Called when a client has finished request-handling to delete server context */
+            </summary>
+        </member>
+        <member name="M:Thrift.Server.ITServerEventHandler.ProcessContextAsync(System.Object,Thrift.Transport.TTransport,System.Threading.CancellationToken)">
+            <summary>
+                Called when a client is about to call the processor */
+            </summary>
+        </member>
+        <member name="M:Thrift.Server.TSimpleAsyncServer.ExecuteAsync(Thrift.Transport.TTransport)">
+            <summary>
+            Loops on processing a client forever
+            client will be a TTransport instance
+            </summary>
+            <param name="client"></param>
+        </member>
+        <member name="T:Thrift.Server.TThreadPoolAsyncServer">
+            <summary>
+            Server that uses C# built-in ThreadPool to spawn threads when handling requests.
+            </summary>
+        </member>
+        <member name="M:Thrift.Server.TThreadPoolAsyncServer.ServeAsync(System.Threading.CancellationToken)">
+            <summary>
+            Use new ThreadPool thread for each new client connection.
+            </summary>
+        </member>
+        <member name="M:Thrift.Server.TThreadPoolAsyncServer.ExecuteAsync(Thrift.Transport.TTransport)">
+            <summary>
+            Loops on processing a client forever
+            client will be a TTransport instance
+            </summary>
+            <param name="client"></param>
+        </member>
+        <member name="T:Thrift.TBaseClient">
+            <summary>
+                TBaseClient.
+                Base client for generated clients.
+                Do not change this class without checking generated code (namings, etc.)
+            </summary>
+        </member>
+        <member name="M:Thrift.Transport.Client.THttpTransport.#ctor(System.Net.Http.HttpClient,Thrift.TConfiguration,System.Uri)">
+            <summary>
+            Constructor that takes a <c>HttpClient</c> instance to support using <c>IHttpClientFactory</c>.
+            </summary>
+            <remarks>As the <c>HttpMessageHandler</c> of the client must be configured at the time of creation, it
+            is assumed that the consumer has already added any certificates and configured decompression methods. The
+            consumer can use the <c>CreateHttpClientHandler</c> method to get a handler with these set.</remarks>
+            <param name="httpClient">Client configured with the desired message handler, user agent, and URI if not
+            specified in the <c>uri</c> parameter. A default user agent will be used if not set.</param>
+            <param name="config">Thrift configuration object</param>
+            <param name="uri">Optional URI to use for requests, if not specified the base address of <c>httpClient</c>
+            is used.</param>
+        </member>
+        <member name="M:Thrift.Transport.Client.THttpTransport.CreateHttpClientHandler(System.Security.Cryptography.X509Certificates.X509Certificate[])">
+            <summary>
+            Get a client handler configured with recommended properties to use with the <c>HttpClient</c> constructor
+            and an <c>IHttpClientFactory</c>.
+            </summary>
+            <param name="certificates">An optional array of client certificates to associate with the handler.</param>
+            <returns>
+            A client handler with deflate and gZip compression-decompression algorithms and any client
+            certificates passed in via <c>certificates</c>.
+            </returns>
+        </member>
+        <member name="F:Thrift.Transport.Server.TNamedPipeServerTransport._pipeAddress">
+            <summary>
+                This is the address of the Pipe on the localhost.
+            </summary>
+        </member>
+        <member name="M:Thrift.Transport.TEndpointTransport.ResetConsumedMessageSize(System.Int64)">
+            <summary>
+            Resets RemainingMessageSize to the configured maximum 
+            </summary>
+        </member>
+        <member name="M:Thrift.Transport.TEndpointTransport.UpdateKnownMessageSize(System.Int64)">
+            <summary>
+            Updates RemainingMessageSize to reflect then known real message size (e.g. framed transport).
+            Will throw if we already consumed too many bytes or if the new size is larger than allowed.
+            </summary>
+            <param name="size"></param>
+        </member>
+        <member name="M:Thrift.Transport.TEndpointTransport.CheckReadBytesAvailable(System.Int64)">
+            <summary>
+            Throws if there are not enough bytes in the input stream to satisfy a read of numBytes bytes of data
+            </summary>
+            <param name="numBytes"></param>
+        </member>
+        <member name="M:Thrift.Transport.TEndpointTransport.CountConsumedMessageBytes(System.Int64)">
+            <summary>
+            Consumes numBytes from the RemainingMessageSize.
+            </summary>
+            <param name="numBytes"></param>
+        </member>
+        <member name="T:Thrift.Transport.TTransportFactory">
+            <summary>
+                From Mark Slee &amp; Aditya Agarwal of Facebook:
+                Factory class used to create wrapped instance of Transports.
+                This is used primarily in servers, which get Transports from
+                a ServerTransport and then may want to mutate them (i.e. create
+                a BufferedTransport from the underlying base transport)
+            </summary>
+        </member>
+    </members>
+</doc>
